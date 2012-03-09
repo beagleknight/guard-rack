@@ -31,6 +31,8 @@ module Guard
     end
 
     def build_rack_command
+      config_file = options[:config_file] || 'config.ru'
+
       rack_options = [
         '--env', options[:environment],
         '--port', options[:port],
@@ -40,7 +42,7 @@ module Guard
       rack_options << '--daemonize' if options[:daemon]
       rack_options << '--debug' if options[:debugger]
 
-      %{sh -c 'cd #{Dir.pwd} && rackup #{rack_options.join(' ')} &'}
+      %{sh -c 'cd #{Dir.pwd} && rackup #{config_file} #{rack_options.join(' ')} &'}
     end
 
     def pid_file
